@@ -45,6 +45,146 @@ ln -sf : 심볼릭 링크를 만듦
 ls -sf {지칭되는 곳} (ex: ln -sf /lib/systemd/system/multi-user.target /etc/systemd/system/default.target)
 
 
+clear : 화면을 비움
+
+
+
+
+
+
+=============================================================
+
+자동완성 : 파일이나 디렉토리의 이름의 일부만 입력한 후 Tab키를 이용
+
+cat : 파일의 내용을 확인 (ex: cat anaconda-kr.cfg)
+
+텍스트 에디터
+1. gedit (한/영 전환 : window+space bar)
+2. vi
+
+vi
+ex mode, insert mode
+ex mode 에서 지우기
+1. x : 한 글자 지우기
+2. dd : 한 라인 지우기
+3. yy : 한 라인 복사
+4. p : 붙여넣기
+5. {n}yy : n라인 복사 (ex: 3yy)
+6. {n}dd : n라인 삭제
+
+
+!{c} : c로 시작하는 최근 명령어(ex : !v)
+
+
+마운트 : 물리적인 장치(하드디스크, CD, DVD, USB)들을 사용하기 위해서 특정한 위치(디렉토리)에 연결하는 과정
+
+CD/DVD에 대한 장치 이름 => /dev 안에 cdrom이라는 이름으로 잡혀있음
+
+현재 자동으로 mount된 CD/DVD의 위치: /run/media/root/CD
+
+cd{공백} : 사용자의 home directory로 이동(ex : cd)
+
+umount : mount해제 (ex: umount /dev/cdrom)or(ex: umount /dev/sr0)
+
+mkdir(make directory) : (ex: mkdir mycdrom)
+
+mount -t iso9660 /dev/cdrom /root/mycdrom: monunt {type} {cdrom의 타입 : iso9660} {src} {dest}
+
+
+
+genisoimage : Linux에서 iso파일을 만드는 프로그램
+
+rpm(redhat package manager): 해당 프로그램이 설치되어 있는지 확인
+(ex: rpm -qa genisoimage)
+
+genisoimage -r -J -o {dest} {src} (ex: genisoimage -r -J -o boot.iso /boot)
+mount -t iso9660 boot.iso mybootimage
+
+
+현재 디렉토리 : .
+상위 디렉토리 : ..
+
+rm : 삭제 (ex: rm -rf /root/myiso)
+-r : 디렉토리 안의 모든 내용 재귀적으로 삭제
+-f : 강제적으로
+
+cd : 복사 (ex: cp abc.txt bbb.txt)
+(cd {src} {dest})
+
+touch : 파일 크기가 0인 파일을 생성 (ex: touch newfile)
+	같은 이름의 파일이 있으면 수정날짜만 현재날짜로 변경
+
+mv : 이동, 이름 변경 (ex: mv aaa.txt bbb.txt)
+(mv {src} {dest})
+
+mkdir
+
+rmdir : 디렉토리안에 파일이나 다른 디렉토리가 없어야 함
+
+cat(concatenate) : 텍스트 파일의 내용을 출력
+
+head, tail : 텍스트 파일의 상위, 하위 10줄 출력
+
+more : 텍스트 파일의 내용을 페이지 단위로 출력 (space누르면 다음 페이지)
+
+
+
+
+- 리눅스는 다중 사용자 시스템
+- 기본적으로 root라는 이름의 superuser가 존재
+- 모든 사용자는 특정 그룹에 속해 있음
+- 리눅스 시스템의 모든 사용자는 /etc/passwd 파일에 정의
+
+cat /etc/passwd => root:x:0:0:root:/root:/bin/bash
+사용자이름 : 패스워드 : 사용자ID : 그룹ID : 사용자 전체 이름 : 홈 디렉토리 : 기본 쉘(명령어 해석기)
+root	   : x        : 0        : 0      : root             : /root       : /bin/bash
+
+- 각 사용자에 대한 비밀번호는 /etc/shadow 파일에 정의
+- 그룹에 대한 정보는 /etc/group 파일에 정의
+
+
+useradd : 사용자 추가(ex: useradd testuser)
+: 특정 옵션 없이 사용자를 추가하면 사용자 ID는 마지막 사용자 ID에 1을 더해서 생성
+useradd -u 1111 testuser : id를 1111로 생성
+useradd -g root testuser : 사용자의 그룹을 root로 생성
+useradd -d /newhome testuser : 기본적으로 일반 사용자의 홈디렉토리는 /home/{username}(ex: /home/testuser)
+			       홈디렉토리를 /newhome으로 지정
+
+passwd testuser : 패스워드 지정
+
+usermod : 사용자의 정보를 수정 (ex: usermod -g root testuser)
+
+userdel : 사용자를 삭제(ex: userdel -r testuser)
+-r : 해당 사용자의 홈디렉토리도 같이 삭제
+
+
+0123456789
+-rw-r--r--
+
+0 : 파일의 종류를 지칭
+	- : 파일
+	d : 디렉토리
+	l : (심볼릭)링크
+
+
+1-9 : 해당 파일의 퍼미션 지칭, 3개씩 분할
+	123 : 소유자의 퍼미션
+	456 : 그룹의 퍼미션 
+	789 : other의 퍼미션
+	
+	r : readable
+	w : writable
+	x : excutable
+
+	r, w, x : 각 값 4, 2, 1 (ex: rw- : 6, r-- : 4, --- : 0,...)
+	(rw-r--r-- : 644)
+
+chmod {number} {file} : number로 file퍼미션 변경 (ex: chmod 660 sample.txt)
+
+chown {user} {file}: file의 소유자를 user로 변경 (ex: chown centos sample.txt)
+chown {user.group} {file} : file의 소유자를 user로 변경하고 그룹을 group으로 변경
+
+chgrp {group} {file} : file의 그룹을 group으로 변경
 
 
 
