@@ -1,0 +1,55 @@
+python 개발을 할 때 가장 일반적인 개발툴 : 파이참
+python 데이터분석을 할 때 가장 일반적인 개발툴 : 주피터 노트북
+
+1. ananconda 설치 (python 3.7)
+
+2. anaconda prompt를 관리자 권한으로 실행
+
+3. pip최신버전으로 upgrade
+=> python -m pip install --upgrade pip
+
+4. 가상환경을 생성
+(이유 : tensorflow는 python 3.6 이하에서만 동작)
+=> conda create -n cpu_env python=3.6 openssl
+(-n : 이름을 붙여줌)
+
+5. 가상환경의 리스트를 출력
+=> conda info --envs
+
+6. 생성된 가상환견으로 전환
+=> activate cpu_env
+
+7. nb_conda설치
+=> conda install nb_conda
+
+8. working directory 설정
+=> jupyter notebook --generate-config
+=> .jupyter/jupyter_notebook_config.py 에서 c.NotebookApp.notebook_dir = 'C:/python_ML' 으로 설정
+
+9. 개발환경 실행
+=> jupyter notebook (내장 웹서버가 동작 => 크롬 브라우저가 실행이 되서 개발환경 실행)
+if 개발환경(Chrome IDE)에서 가상환경이 안 보일 경우
+=> python -m ipykernel install --user --name cpu_env --display-name[CPU_ENV]
+
+
+=====================================================================================
+
+1. 빅 데이터 분석방법
+
+1) EDA(Exploratory Data Analysis) : 탐색적 데이터 분석
+2) 통계적 가설 검정
+3) 머신러닝 : 많은 양의 데이터를 기반으로 프로그램을 학습시켜서 분석
+
+
+
+
+
+
+
+
+
+
+
+
+
+

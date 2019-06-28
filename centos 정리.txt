@@ -95,6 +95,7 @@ mount -t iso9660 /dev/cdrom /root/mycdrom: monunt {type} {cdrom의 타입 : iso9660
 genisoimage : Linux에서 iso파일을 만드는 프로그램
 
 rpm(redhat package manager): 해당 프로그램이 설치되어 있는지 확인
+(package : window에서의 exe 설치파일 {.rpm})
 (ex: rpm -qa genisoimage)
 
 genisoimage -r -J -o {dest} {src} (ex: genisoimage -r -J -o boot.iso /boot)
@@ -185,6 +186,113 @@ chown {user} {file}: file의 소유자를 user로 변경 (ex: chown centos sample.txt)
 chown {user.group} {file} : file의 소유자를 user로 변경하고 그룹을 group으로 변경
 
 chgrp {group} {file} : file의 그룹을 group으로 변경
+
+
+===========================================================================================
+
+패키지 설치 : 
+rpm -Uvh {packageName}.rpm
+-U : 패키지 설치, 업데이트
+-v : 설치과정 출력
+-h : 설치 진행도 #으로 출력
+
+패치키 삭제 : 
+rpm -e {packageName}
+
+rpm으로 설치 문제 : 패키지의 의존성(dependency) 관리가 안 됨. 
+
+
+
+의존성 해결 => YUM(Yellowdog Updater Modified)
+
+yum install {packageName}
+
+yum remove {packageName}
+
+
+
+파일 압축 : 많이 사용되는 압축파일 형식 (xz, bz2, zip)
+
+xz {fileName} : 파일 1개 압축(파일을 압축한 후에 원본 삭제) (ex: xz sample.txt)
+
+xz -d {compressedFileName} : 압축 해제 (ex: xz -d sample.txt.xz)
+(-d : decompression)
+
+
+디렉토리 안의 모든 파일을 압축해서 파일 1개로 만들고 싶을 때 
+=> 디렉토리안의 파일들을 파일 1개로 묶은 후에 압축
+=> tar
+
+tar
+-cvf : 파일을 묶음
+-xvf : 묶인 파일을 다시 품
+
+tar -cvf {묶은파일} {묶을폴더}
+(ex: tar cvf boot.tar /boot)
+(ex: ex boot.tar)
+
+
+
+find : 파일을 찾음
+
+find {path} {option}
+(ex: find /boot -name "*.conf")
+(ex: find /boot -size +10k -size -100k)
+
+
+
+CRON : 주기적으로 반복되는 작업을 자동화시킬수 있는 도구
+
+관련 파일은 /etc/crontab 파일
+반복잡업은 crond라는 데몬 프로세스가 실행
+
+(ex: vi /etc/crontab)
+(ex: 01 00 * * * root touch test.txt)
+
+AT : CRON과 유사하지만 반복이 아닌 일회성 작업을 예약
+(ex: at 3:00am tomorrow) : 내일 새벽 3시
+(ex: at now +1 hours) : 한 시간 후 
+(ex: at now +1 minutes) : 일 분 후
+
+(ex: 
+ # at now +1 minutes
+ at> touch newfile.txt
+ at> <EOF> (ctrl + d)
+)
+
+
+ps : 현재 수행되고 있느 process의 목록을 살펴봄 (ex: ps)
+-ef : 모든 process를 살펴봄 (ex: ps -ef)
+
+(ex: 
+# gedit ( gedit가 foregroud에서 실행되고 prompt창은 멈춤)
+# {ctrl+z} (foreground에서의 gedit가 stop되고 prompt창은 살아남)
+# fg (foregound로 다시 돌아옴)
+
+# {ctrl+z}
+# ps -ef (gedit 프로세스가 실행되고 있는 것을 확인함, PID(process ID)를 확인함)
+)
+
+kill : 프로세스 중지 
+-9 : 무조건 중지
+kill -9 {pid}
+(ex: kill -9 9979)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
